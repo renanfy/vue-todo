@@ -1,17 +1,12 @@
 <template>
   <div>
     <v-col cols="12">
-      <v-text-field
-        v-model="campoInput"
-        label="Qual sua tarefa?"
-        outlined
-        clearable
-        @keyup.enter="handleAddTarefa"
-      ></v-text-field>
+      <v-text-field v-model="campoInput" label="Qual sua tarefa?" outlined clearable
+        @keyup.enter="handleAddTarefa"></v-text-field>
     </v-col>
 
     <v-list select-strategy="classic"> </v-list>
-    <div v-for="(tarefa, index) in tarefas" :key="index">
+    <div v-for="(tarefa, index) in $store.state.tarefas" :key="index">
       <Tarefa :tarefa="tarefa" />
     </div>
   </div>
@@ -28,22 +23,14 @@ export default {
   data() {
     return {
       campoInput: null,
-      tarefas: [
-        {titulo: 'teste', concluido: true},
-        {titulo: 'testefalse', concluido: false}
-      ],
     };
   },
   methods: {
     handleAddTarefa() {
-      if (this.campoInput) {
-        this.tarefas.push({
-          titulo: this.campoInput,
-          concluido: false,
-        });
-        this.campoInput = null;
-      }
-    },
-  },
-};
+      this.$store.commit('adicionaTarefa', this.campoInput)
+      this.campoInput = null;
+
+    }
+  }
+}
 </script>
